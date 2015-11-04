@@ -61,8 +61,9 @@ require([
                     'fx-d-m/i18n/nls/site' : "./i18n/site",
                     'fx-cat-br/config/config': './config/submodules/fx-catalog/config',
 
-                    'fx-submodules/config/baseConfig': './config/submodules/config_base'
+                    'fx-submodules/config/baseConfig': './config/submodules/config_base',
 
+                    'jqxall': "../lib/jqxall"
                 },
 
                 // Underscore and Backbone are not AMD-capable per default,

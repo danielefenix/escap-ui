@@ -11,6 +11,7 @@ define(['jquery', 'fx-submodules/config/baseConfig'],
         // configuration data management
         cfg.DSD_EDITOR_CODELISTS = "config/submodules/DSDEditor/CodelistsESCAP.json";
         cfg.DSD_EDITOR_CONTEXT_SYSTEM = "ESCAP";
+        cfg.DSD_EDITOR_DATASOURCES = ["ESCAP"];
 
         cfg.METADATA_EDITOR_AJAX_EVENT_CALL = "config/submodules/fx-m-editor/fx-editor-ajax-config_ESCAP.json";
 
