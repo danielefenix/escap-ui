@@ -1,0 +1,30 @@
+[
+  {
+    "val": "ESCAP_Area",
+    "text": {
+      "EN": "ESCAP Area o"
+    },
+    "subject": "item"
+  },
+  {
+    "val": "ESCAP_Time",
+    "text": {
+      "EN": "ESCAP Time"
+    },
+    "subject": "time"
+  },
+  {
+    "val": "ESCAP_UM",
+    "text": {
+      "EN": "ESCAP UM"
+    },
+    "subject": "um"
+  },
+  {
+    "val": "ESCAP_Indicator",
+    "text": {
+      "EN": "ESCAP Indicator"
+    },
+    "subject": "item"
+  }
+]
