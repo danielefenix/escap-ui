@@ -1,0 +1,27 @@
+[submodule "submodules/fenix-ui-table-creator"]
+	path = submodules/fenix-ui-table-creator
+	url = https://github.com/FENIX-Platform/fenix-ui-table-creator
+[submodule "submodules/fenix-ui-common"]
+	path = submodules/fenix-ui-common
+	url = https://github.com/FENIX-Platform/fenix-ui-common
+[submodule "submodules/fenix-ui-data-management"]
+	path = submodules/fenix-ui-data-management
+	url = https://github.com/FENIX-Platform/fenix-ui-data-management
+[submodule "submodules/fenix-ui-metadata-editor"]
+	path = submodules/fenix-ui-metadata-editor
+	url = https://github.com/FENIX-Platform/fenix-ui-metadata-editor
+[submodule "submodules/fenix-ui-DSDEditor"]
+	path = submodules/fenix-ui-DSDEditor
+	url = https://github.com/FENIX-Platform/fenix-ui-DSDEditor
+[submodule "submodules/fenix-ui-dataeditor"]
+	path = submodules/fenix-ui-dataeditor
+	url = https://github.com/FENIX-Platform/fenix-ui-dataeditor
+[submodule "submodules/fenix-ui-dataupload"]
+	path = submodules/fenix-ui-dataupload
+	url = https://github.com/FENIX-Platform/fenix-ui-dataupload
+[submodule "submodules/fenix-ui-menu"]
+	path = submodules/fenix-ui-menu
+	url = https://github.com/FENIX-Platform/fenix-ui-menu
+[submodule "submodules/fenix-ui-catalog"]
+	path = submodules/fenix-ui-catalog
+	url = https://github.com/FENIX-Platform/fenix-ui-catalog
