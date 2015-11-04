@@ -63,7 +63,7 @@ require([
 
                     'fx-submodules/config/baseConfig': './config/submodules/config_base',
 
-                    'jqxall': "../lib/jqxall"
+                    'jqxall': "./submodules/fenix-ui-DSDEditor/lib/jqxall"
                 },
 
                 // Underscore and Backbone are not AMD-capable per default,
