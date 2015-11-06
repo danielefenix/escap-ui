@@ -3,9 +3,19 @@
 require([
     './submodules/fenix-ui-common/js/Compiler',
     './submodules/fenix-ui-common/js/paths',
-    './submodules/fenix-ui-table-creator/src/js/paths'
+    './submodules/fenix-ui-menu/js/paths',
+    './submodules/fenix-ui-catalog/js/paths',
+    './submodules/fenix-ui-DataEditor/js/paths',
+    './submodules/fenix-ui-DSDEditor/js/paths',
+    './submodules/fenix-ui-metadata-editor/js/paths',
+    './submodules/fenix-ui-map-creator/src/js/paths',
+    './submodules/fenix-ui-chart-creator/src/js/paths',
+    './submodules/fenix-ui-table-creator/src/js/paths',
+    './submodules/fenix-ui-dashboard/src/js/paths'
 
-], function (Compiler, Common, TableCreator) {
+], function (Compiler, Common, Menu, Catalog,
+             DataEditor, DSDEditor, MetadataEditor,
+             MapCreator,ChartCreator, TableCreator, Dashboard  ) {
 
     'use strict';
 
@@ -14,10 +24,34 @@ require([
     var commonConfig = Common;
     commonConfig.baseUrl = submodules_path + 'fenix-ui-common/js';
 
+    var menuConfig = Menu;
+    menuConfig.baseUrl = submodules_path + '/fenix-ui-menu/js';
+
+    var catalogConfig = Catalog;
+    catalogConfig.baseUrl = submodules_path +'fenix-ui-catalog/js/';
+
+    var dataEditorConfig = DataEditor;
+    dataEditorConfig.baseUrl = submodules_path +'fenix-ui-DataEditor/js/';
+
+    var dsdEditorConfig = DSDEditor;
+    dsdEditorConfig.baseUrl = submodules_path +'fenix-ui-DSDEditor/js/';
+
+    var mapCreatorConfig = MapCreator;
+    mapCreatorConfig.baseUrl= submodules_path +'fenix-ui-map-creator/src/js/';
+
+    var chartCreatorConfig = ChartCreator;
+    chartCreatorConfig.baseUrl= submodules_path +'fenix-ui-chart-creator/src/js/';
+
     var tableCreatorConfig = TableCreator;
     tableCreatorConfig.baseUrl= submodules_path +'fenix-ui-table-creator/src/js/';
 
-    Compiler.resolve([tableCreatorConfig],
+    var dashboardConfig = Dashboard;
+    dashboardConfig.baseUrl= submodules_path +'fenix-ui-dashboard/src/js/';
+
+    Compiler.resolve([commonConfig, menuConfig,catalogConfig,
+            dataEditorConfig,dsdEditorConfig,
+            mapCreatorConfig,chartCreatorConfig,tableCreatorConfig, dashboardConfig],
+
         {
             placeholders: {"FENIX_CDN": "http://fenixrepo.fao.org/cdn"},
 
@@ -60,12 +94,14 @@ require([
                     threejs : "{FENIX_CDN}/js/threejs/4.4/three.min",
 
                     'highcharts': '{FENIX_CDN}/js/highcharts/4.1.6/js/highcharts',
+                    'jstree': '{FENIX_CDN}/js/jstree/3.0.8/dist/jstree.min',
 
                     amplify: '{FENIX_CDN}/js/amplify/1.1.2/amplify.min',
 
                     nls: "../../i18n",
                     config: "../../config",
                     json: "../../json",
+                    templates: "../../templates",
 
                     'webix' : 'http://fenixrepo.fao.org/cdn/js/webix/2.2.1/js/webix',
 
@@ -167,13 +203,101 @@ require([
     // Bootstrap the application
     require([
         'jquery',
+        'text!json/lateral_menu.json',
+        'text!config/profile/resume_countries.json',
+        'text!templates/bases.hbs',
+        'handlebars',
+        'config/domain/Config',
+        'fx-ds/start',
+        'jstree',
+        'underscore',
         'domReady!'
-    ], function ($) {
+    ], function ($, LateralMenuConfig, resumeInfo, basesTemplate, Handlebars, PC, Dashboard) {
+
+        var s = {
+            MENU : '#menu',
+            DASHBOARD : '#dashboard'
+        }, unecaDashboard;
+
+        printMenu();
+
+        function printDashboard (id) {
+
+            _printDashboardBase(id);
+
+            var conf = _getDashboardConfig(id);
+
+            _renderDashboard(conf);
+
+        }
+
+        function _printDashboardBase   (id) {
+
+            //Inject HTML
+            var source = $(basesTemplate).find("[data-dashboard='" + id + "']"),
+                template = Handlebars.compile(source.prop('outerHTML')),
+                context = JSON.parse(resumeInfo),
+                html = template( {});
+
+            console.log(source)
+
+            $(s.DASHBOARD).html(html);
+        };
+
+        function _getDashboardConfig(id){
+
+            //get from PC the 'id' conf
+
+            var base = PC[id],
+                conf;
+
+            if (!base) {
+                alert("Impossible to load dashboard configuration for [" + id + "]");
+            }
+
+            conf = $.extend(true, {}, base);
+
+            //conf.filter = [this._createCountryFilter()];
+
+            return conf;
+        };
+
+        function _renderDashboard(config) {
+
+            if (unecaDashboard && unecaDashboard.destroy) {
+                unecaDashboard.destroy();
+            }
+
+            unecaDashboard = new Dashboard({
+                layout: "injected"
+            });
+
+            unecaDashboard.render(config);
+
+        }
+
+        function printMenu() {
+
+            //print jstree
+            $(s.MENU).jstree(JSON.parse(LateralMenuConfig))
+                //Limit selection e select only leafs for indicators
+                .on("select_node.jstree", _.bind(function (e, data) {
 
 
-        $.getJSON('http://escap-fenix-01.escap.un.org:7777/v2/msd/resources/uid/...', function (data){
-            console.log(data)
-        });
+                    if ( data.instance.is_leaf(data.node) ) {
+
+                        if (data.node.id !== 'population') {
+                            alert('Demo: population configuration will be displayed')
+                            printDashboard('population');
+                        } else {
+                            printDashboard(data.node.id);
+                        }
+
+                    }
+
+                }, this));
+
+        }
 
     });
 });
